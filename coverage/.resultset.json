@@ -1,0 +1,58 @@
+{
+  "RSpec": {
+    "coverage": {
+      "/Users/chelseajohnson/Documents/turing/3module/api_curious/app/helpers/application_helper.rb": [
+        1,
+        null
+      ],
+      "/Users/chelseajohnson/Documents/turing/3module/api_curious/app/controllers/home_controller.rb": [
+        1,
+        1,
+        null,
+        null
+      ],
+      "/Users/chelseajohnson/Documents/turing/3module/api_curious/app/controllers/application_controller.rb": [
+        1,
+        null,
+        null,
+        1,
+        1,
+        null,
+        1,
+        1,
+        null,
+        null
+      ],
+      "/Users/chelseajohnson/Documents/turing/3module/api_curious/app/controllers/sessions_controller.rb": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "/Users/chelseajohnson/Documents/turing/3module/api_curious/app/models/user.rb": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "timestamp": 1459808870
+  }
+}
