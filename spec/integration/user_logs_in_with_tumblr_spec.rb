@@ -2,18 +2,19 @@ require "rails_helper"
 
 RSpec.feature "UserLogsInWithTumblr", type: :integration do
   include Capybara::DSL
-  def setup
-    Capybara.app = OauthWorkship::Application
+
+  before(:each) do
+    Capybara.app = ApiCurious::Application
     stub_omniauth
   end
 
   scenario "logging in" do
     visit "/"
     expect(page.status_code).to eq(200)
-    # click_on "Sign in with Tumblr"
-    # expect(current_path).to eq(root_path)
-    # expect(page).to have_content("Horace")
-    # expect(page).to have_link("Logout")
+    click_on "Sign in with Tumblr"
+    expect(current_path).to eq("/")
+    expect(page).to have_content("Horace")
+    expect(page).to have_link("Logout")
   end
 
   def stub_omniauth
@@ -27,7 +28,6 @@ RSpec.feature "UserLogsInWithTumblr", type: :integration do
        raw_info: {
          uid: "1234",
          name: "Horace",
-         screen_name: "worace",
        }
      },
      credentials: {
