@@ -3,7 +3,7 @@
     <a href="/" class="brand-logo">Tumblred</a>
     <ul class="right hide-on-med-and-down">
       <% if current_user %>
-        <li><%= link_to "#{current_user.name}", dashboard_path %> </li>
+        <li><%= link_to "#{current_user.name}", user_path(current_user) %> </li>
         <li><%= link_to "Logout", logout_path, method: :delete %></li>
       <% else %>
         <li><%= link_to "Sign in with Tumblr", tumblr_login_path %></li>
