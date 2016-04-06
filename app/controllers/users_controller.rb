@@ -8,6 +8,8 @@ class UsersController < ApplicationController
     @title = Blog.title(current_user.uid)
     @total_posts = Blog.total_posts(current_user.uid)
     @avatar = Blog.avatar(current_user.uid)
+    @recent_posts = Blog.posts(current_user.uid)
+    @posts = Blog.photos(current_user.uid)
   end
 end
 
