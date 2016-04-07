@@ -1,5 +1,23 @@
-<h1>Tumblr Fun!</h1>
+<h1>Feed</h1>
 
-<% @following.each do |name| %>
-  <%= Blog.new(current_user).following_posts(name) %>
-<% end %>
+<div class="container">
+
+  <div class="row">
+     <div class="col s12 m7">
+       <% @following.each do |name| %>
+        <%post = Blog.new(current_user).following_photos(name) %>
+         <div class="card blue-grey darken-1">
+           <% post[:photos].each do |url| %>
+             <div class="card-image">
+               <%= image_tag("#{url}") %>
+             </div>
+            <% end %>
+             <div class="card-content">
+               <p><%= name %></p>
+               <p><%= post[:summary] %></p>
+            </div>
+         </div> <br><br>
+        <% end %>
+     </div>
+  </div>
+</div>

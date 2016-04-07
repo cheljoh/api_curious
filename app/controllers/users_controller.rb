@@ -4,8 +4,8 @@ class UsersController < ApplicationController
 
   end
 
-  def show #should use a presenter for this
-    @blog = Blog.new(current_user) #title and total posts
+  def show
+    @blog = Blog.new(current_user)
   end
 end
 

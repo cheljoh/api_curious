@@ -2,23 +2,25 @@ require 'rails_helper'
 
 RSpec.describe Blog, type: :model do
 
+  user = User.create(uid: "cheljoh", name: "cheljoh", oauth_token: ENV["OAUTH_TOKEN"], oauth_token_secret: ENV["OAUTH_TOKEN_SECRET"])
+
   it "returns the blog title" do
     VCR.use_cassette("blog.title") do
-      title = Blog.new("cheljoh").title
+      title = Blog.new(user).title
       expect(title).to eq("Fun Times")
     end
   end
 
   it "returns total_posts" do
     VCR.use_cassette("blog.total_posts") do
-      title = Blog.new("cheljoh").total_posts
+      title = Blog.new(user).total_posts
       expect(title).to eq(4)
     end
   end
 
   it "returns post title and summary" do
     VCR.use_cassette("blog.posts") do
-      posts = Blog.new("cheljoh").posts
+      posts = Blog.new(user).posts
       post1 = posts.first
       post2 = posts.last
       expect(post1[0]).to eq("Another one")
@@ -30,7 +32,7 @@ RSpec.describe Blog, type: :model do
 
   it "returns photo summary and url" do
     VCR.use_cassette("blog.photos") do
-      posts = Blog.new("cheljoh").photos
+      posts = Blog.new(user).photos
       post1 = posts.first
       post2 = posts.last
       post1_url = "https://36.media.tumblr.com/0b6cd63c3d10d8f900dd78f9ef99709c/tumblr_o56xtkb3Ub1vqcg1go1_500.jpg"

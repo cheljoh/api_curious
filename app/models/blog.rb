@@ -7,7 +7,7 @@ class Blog
   end
 
   def title
-    info(blog_name)[:title] #prolly dont need these arguments
+    info(blog_name)[:title] 
   end
 
   def total_posts
@@ -25,22 +25,19 @@ class Blog
     end
   end
 
-  def following_posts(following_name)
-    posts = get_posts(following_name)
-    post_content = posts.map do |post|
-      [post[:title], post[:body].gsub("<p>", "").gsub("</p>", "")]
-    end
-  end
-
   def photos
     photos = get_photos(blog_name).map{|post| {:summary => post[:summary], :photos => post[:photos].map{|photo| photo[:alt_sizes][1][:url]}}}
   end
 
   def following
     blogs = get_names(current_user)["blogs"]
-    blogs.map do |blog|
+    names = blogs.map do |blog|
       blog["name"]
     end.first(8)
+  end
+
+  def following_photos(name)
+    photos = (get_photos(name).map{|post| {:summary => post[:summary], :photos => post[:photos].map{|photo| photo[:alt_sizes][1][:url]}}}).first
   end
 
   private

@@ -43,9 +43,10 @@ describe TumblrService do
   end
 
   it "returns following" do
+    user = User.create(uid: "horace", name: "horace", oauth_token: ENV["OAUTH_TOKEN"], oauth_token_secret: ENV["OAUTH_TOKEN_SECRET"])
     VCR.use_cassette("tumblr_service#following") do
       service = TumblrService.new("cheljoh")
-      service.following
+      service.following(user)
     end
   end
 

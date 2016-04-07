@@ -6,12 +6,11 @@ RSpec.feature "UserViewsTheirBlog", type: :integration do
   scenario "user sees their info" do
     VCR.use_cassette("tumblr_service#info") do
 
-      user = User.create(uid: "cheljoh", name: "cheljoh")
+      user = User.create(uid: "cheljoh", name: "cheljoh", oauth_token: ENV["OAUTH_TOKEN"], oauth_token_secret: ENV["OAUTH_TOKEN_SECRET"])
 
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
 
-      visit "/"
-      click_on "cheljoh"
+      visit "users/#{user.id}"
 
       expect(page).to have_content("Fun Times")
       expect(page).to have_content("Total Posts: 4")
