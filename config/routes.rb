@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   #get "/dashboard", to: "users#show"
 
   root to:  "home#index"
+  post "/", to: "home#update"
 end

@@ -3,7 +3,7 @@ require "oauth"
 
 class TumblrService
 
-  def initialize(blog_name)
+  def initialize(blog_name = "")
     @api_key = "api_key=#{ENV['CONSUMER_KEY']}"
     @host = "https://api.tumblr.com/v2/blog/#{blog_name}"
   end
@@ -28,16 +28,26 @@ class TumblrService
     Base64.strict_encode64(response)
   end
 
+  def like(current_user, params) #post_id, reblog_key) #post id 142361835703
+    configure_tumblr_client(current_user)
+    client = Tumblr::Client.new
+    client.like(params[:post_id].to_i, params[:reblog_key])
+  end
+
   def following(current_user)
+    configure_tumblr_client(current_user)
+
+    client = Tumblr::Client.new
+    client.following
+  end
+
+  def configure_tumblr_client(current_user)
     Tumblr.configure do |config|
       config.consumer_key = ENV['CONSUMER_KEY']
       config.consumer_secret = ENV['SECRET_KEY']
       config.oauth_token = current_user.oauth_token
       config.oauth_token_secret = current_user.oauth_token_secret
     end
-
-    client = Tumblr::Client.new
-    client.following
   end
 
     # http_method = "GET"

@@ -7,22 +7,25 @@
        <div class="col s12 m7">
          <% @following.each do |name| %>
           <%post = Blog.new(current_user).following_photos(name) %>
-           <div class="card blue-grey darken-1">
-             <% post[:photos].each do |url| %>
-               <div class="card-image">
-                 <%= image_tag("#{url}") %>
-               </div>
-              <% end %>
-               <div class="card-content">
-                 <p><%= name %></p>
-                 <p><%= post[:summary] %></p>
-              </div>
-           </div> <br><br>
+            <div id="<%=name%>">
+             <div class="card blue-grey darken-1">
+               <% post[:photos].each do |url| %>
+                 <div class="card-image">
+                   <%= image_tag("#{url}") %>
+                 </div>
+                <% end %>
+                 <div class="card-content">
+                   <p><%= name %></p>
+                   <p><%= post[:summary] %></p>
+                    <%= button_to "like", {controller: "home", action: "update", post_id: post[:post_id], reblog_key: post[:reblog_key]} %>
+                </div>
+             </div> <br><br>
+          </div>
         <% end %>
       </div>
     </div>
     <% else %>
     Please log in to see your feed
   <% end %>
-  
+
 </div>
