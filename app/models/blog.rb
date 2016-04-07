@@ -41,7 +41,7 @@ class Blog
   end
 
   def like(params)
-    service = TumblrService.new.like(current_user, params)
+    TumblrService.new.like(current_user, params)
   end
 
   private

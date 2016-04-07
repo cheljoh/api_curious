@@ -8,7 +8,7 @@ class HomeController < ApplicationController
 
   def update
     like_post = Blog.new(current_user).like(like_params)
-    flash[:notice] = "you liked a post!"
+    flash[:notice] = "you liked a post! <3"
     redirect_to root_path
   end
 

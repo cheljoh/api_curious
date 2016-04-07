@@ -3,6 +3,9 @@
     "coverage": {
       "/Users/chelseajohnson/Documents/turing/3module/api_curious/app/helpers/application_helper.rb": [
         1,
+        1,
+        32,
+        null,
         null
       ],
       "/Users/chelseajohnson/Documents/turing/3module/api_curious/app/models/blog.rb": [
@@ -275,6 +278,6 @@
         null
       ]
     },
-    "timestamp": 1460051692
+    "timestamp": 1460055442
   }
 }

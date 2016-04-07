@@ -28,7 +28,7 @@ class TumblrService
     Base64.strict_encode64(response)
   end
 
-  def like(current_user, params) #post_id, reblog_key) #post id 142361835703
+  def like(current_user, params) 
     configure_tumblr_client(current_user)
     client = Tumblr::Client.new
     client.like(params[:post_id].to_i, params[:reblog_key])

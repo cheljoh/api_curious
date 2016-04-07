@@ -17,7 +17,6 @@ RSpec.feature "UserLikesAPost", type: :integration do
       end
 
       expect(page).to have_content("you liked a post!")
-
     end
   end
 end
