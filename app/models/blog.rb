@@ -1,12 +1,13 @@
 class Blog
-  attr_reader :blog_name
+  attr_reader :blog_name, :current_user
 
-  def initialize(blog_name)
-    @blog_name = blog_name
+  def initialize(current_user)
+    @blog_name = current_user.uid
+    @current_user = current_user
   end
 
   def title
-    info(blog_name)[:title]
+    info(blog_name)[:title] #prolly dont need these arguments
   end
 
   def total_posts
@@ -24,8 +25,22 @@ class Blog
     end
   end
 
+  def following_posts(following_name)
+    posts = get_posts(following_name)
+    post_content = posts.map do |post|
+      [post[:title], post[:body].gsub("<p>", "").gsub("</p>", "")]
+    end
+  end
+
   def photos
     photos = get_photos(blog_name).map{|post| {:summary => post[:summary], :photos => post[:photos].map{|photo| photo[:alt_sizes][1][:url]}}}
+  end
+
+  def following
+    blogs = get_names(current_user)["blogs"]
+    blogs.map do |blog|
+      blog["name"]
+    end.first(8)
   end
 
   private
@@ -44,6 +59,10 @@ class Blog
 
   def get_photos(blog_name)
     TumblrService.new(blog_name).photos
+  end
+
+  def get_names(current_user)
+    TumblrService.new(blog_name).following(current_user)
   end
 
 end

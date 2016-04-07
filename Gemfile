@@ -14,9 +14,11 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro'
 gem 'omniauth-tumblr'
+gem 'ruby-hmac'
 gem 'httparty'
 gem 'faraday'
 gem 'figaro'
+gem 'tumblr_client'
 
 group :development, :test do
   gem 'rspec'

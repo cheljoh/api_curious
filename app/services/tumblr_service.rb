@@ -1,4 +1,5 @@
 require "base64"
+require "oauth"
 
 class TumblrService
 
@@ -22,18 +23,70 @@ class TumblrService
     response[:response][:posts]
   end
 
-  # text, quote, link, answer, video, audio, photo, chat. Get videos?
-  #NEXT- feed of people
-  #/user/following – Retrieve the Blogs a User Is Following
-
   def avatar
     response = HTTParty.get(@host + "/avatar/64")
     Base64.strict_encode64(response)
   end
 
-  def following
+  def following(current_user)
+    Tumblr.configure do |config|
+      config.consumer_key = ENV['CONSUMER_KEY']
+      config.consumer_secret = ENV['SECRET_KEY']
+      config.oauth_token = current_user.oauth_token
+      config.oauth_token_secret = current_user.oauth_token_secret
+    end
 
+    client = Tumblr::Client.new
+    client.following
   end
+
+    # http_method = "GET"
+    # base_url = "api.tumblr.com/v2/user/following"
+    # parameters = [["oauth_consumer_key", ""],
+    #               ["oauth_token", ""],
+    #               ["oauth_signature_method", "HMAC-SHA1"],
+    #               ["oauth_timestamp", "1460001937"],
+    #               ["oauth_nonce", "CImbuF"],
+    #               ["oauth_version", "1.0"]]
+    #
+    # url_encoded = parameters.map{|pair| [URI::escape(pair[0]), URI::escape(pair[1])]} #url encode the key/values
+    # url_encoded_sorted = url_encoded.sort_by{|pair| pair[0]} #sort by encoded key
+    # parameter_string = url_encoded_sorted.map{|pair| pair[0].to_s + "=" + pair[1].to_s}.join("&")
+    # base_string_to_sign = http_method + "&" + URI::escape(base_url) + "&" + URI::escape(parameter_string)
+    #
+    # request = "api.tumblr.com/v2/user/following?oauth_consumer_key=&oauth_token=&oauth_signature_method=HMAC-SHA1&oauth_timestamp=1460001937&oauth_nonce=&oauth_version=1.0"
+    #
+    # consumer_secret_key = ""
+    # oauth_token_secret = ""
+    # options = {:consumer_secret => consumer_secret_key, :token_secret => oauth_token_secret}
+    # request_proxy = OAuth::RequestProxy::Base.new(request, {}) #no unsigned parameters
+    # o = OAuth::Signature::HMAC::SHA1.new(request_proxy, options)
+    #
+    # encode_key = URI::escape(consumer_secret_key) + "&" + URI::escape(oauth_token_secret)
+    # signature = CGI.escape(Base64.encode64("#{OpenSSL::HMAC.digest('sha1', encode_key, base_string_to_sign)}").chomp)
+    # request = base_string_to_sign + "&oauth_signature=" + signature
+    #
+    # base_string_to_sign = ""
+    #
+    # encode_key = ""
+    # signature = CGI.escape(Base64.encode64("#{OpenSSL::HMAC.digest('sha1',encode_key, base_string_to_sign)}").chomp)
+    #
+    # signature_string = "&oauth_signature=#{signature}"
+    # #headers = {"Authorization" => consumer_key + consumer_secret + oauth_token + oauth_token_secret}
+    # # HTTParty.get(host, headers: headers).body
+    # HTTParty.get(host + consumer_key + oauth_token + oauth_signature_method + timestamp + nonce + version + signature_string)
+
+  # def hmac_sha1(data, secret)
+  #   OpenSSL::HMAC.hexdigest(OpenSSL::Digest::Digest.new('sha1'), secret.encode("ASCII"), data.encode("ASCII"))
+  # end
+  #
+  # def get_timestamp
+  #   Time.now.to_i
+  # end
+  #
+  # def get_nonce
+  #   rand(10 ** 30).to_s.rjust(30,'0')
+  # end
 
   private
 
@@ -42,137 +95,3 @@ class TumblrService
   end
 
 end
-
-
-# {:meta=>{:status=>200, :msg=>"OK"},
-#  :response=>
-#   {:blog=>
-#     {:title=>"Fun Times",
-#      :name=>"cheljoh",
-#      :total_posts=>4,
-#      :posts=>4,
-#      :url=>"http://cheljoh.tumblr.com/",
-#      :updated=>1459910073,
-#      :description=>"",
-#      :is_nsfw=>false,
-#      :ask=>false,
-#      :ask_page_title=>"Ask me anything",
-#      :ask_anon=>false,
-#      :share_likes=>true,
-#      :likes=>0},
-#    :posts=>
-#     [{:blog_name=>"cheljoh",
-#       :id=>142327511406,
-#       :post_url=>"http://cheljoh.tumblr.com/post/142327511406/unicat-dawwwwww",
-#       :slug=>"unicat-dawwwwww",
-#       :type=>"photo",
-#       :date=>"2016-04-06 02:34:32 GMT",
-#       :timestamp=>1459910072,
-#       :state=>"published",
-#       :format=>"html",
-#       :reblog_key=>"nWa0qOer",
-#       :tags=>[],
-#       :short_url=>"https://tmblr.co/ZhhVQh24ZONbk",
-#       :summary=>"unicat dawwwwww",
-#       :recommended_source=>nil,
-#       :recommended_color=>nil,
-#       :highlighted=>[],
-#       :note_count=>0,
-#       :caption=>"<p>unicat dawwwwww</p>",
-#       :reblog=>{:tree_html=>"", :comment=>"<p>unicat dawwwwww</p>"},
-#       :trail=>
-#        [{:blog=>
-#           {:name=>"cheljoh",
-#            :active=>true,
-#            :theme=>
-#             {:avatar_shape=>"square",
-#              :background_color=>"#FAFAFA",
-#              :body_font=>"Helvetica Neue",
-#              :header_bounds=>"",
-#              :header_image=>"https://secure.assets.tumblr.com/images/default_header/optica_pattern_08.png?_v=f0f055039bb6136b9661cf2227b535c2",
-#              :header_image_focused=>"https://secure.assets.tumblr.com/images/default_header/optica_pattern_08_focused_v3.png?_v=f0f055039bb6136b9661cf2227b535c2",
-#              :header_image_scaled=>"https://secure.assets.tumblr.com/images/default_header/optica_pattern_08_focused_v3.png?_v=f0f055039bb6136b9661cf2227b535c2",
-#              :header_stretch=>true,
-#              :link_color=>"#529ECC",
-#              :show_avatar=>true,
-#              :show_description=>true,
-#              :show_header_image=>true,
-#              :show_title=>true,
-#              :title_color=>"#86649b",
-#              :title_font=>"Gibson",
-#              :title_font_weight=>"bold"},
-#            :share_likes=>true,
-#            :share_following=>true},
-#          :post=>{:id=>"142327511406"},
-#          :content_raw=>"<p>unicat dawwwwww</p>",
-#          :content=>"<p>unicat dawwwwww</p>",
-#          :is_current_item=>true,
-#          :is_root_item=>true}],
-#       :image_permalink=>"http://cheljoh.tumblr.com/image/142327511406",
-#       :photos=>
-#        [{:caption=>"",
-#          :alt_sizes=>
-#           [{:url=>"https://40.media.tumblr.com/0b6cd63c3d10d8f900dd78f9ef99709c/tumblr_o56xtkb3Ub1vqcg1go1_1280.jpg", :width=>720, :height=>445},
-#            {:url=>"https://36.media.tumblr.com/0b6cd63c3d10d8f900dd78f9ef99709c/tumblr_o56xtkb3Ub1vqcg1go1_500.jpg", :width=>500, :height=>309},
-#            {:url=>"https://40.media.tumblr.com/0b6cd63c3d10d8f900dd78f9ef99709c/tumblr_o56xtkb3Ub1vqcg1go1_400.jpg", :width=>400, :height=>247},
-#            {:url=>"https://40.media.tumblr.com/0b6cd63c3d10d8f900dd78f9ef99709c/tumblr_o56xtkb3Ub1vqcg1go1_250.jpg", :width=>250, :height=>155},
-#            {:url=>"https://40.media.tumblr.com/0b6cd63c3d10d8f900dd78f9ef99709c/tumblr_o56xtkb3Ub1vqcg1go1_100.jpg", :width=>100, :height=>62},
-#            {:url=>"https://41.media.tumblr.com/0b6cd63c3d10d8f900dd78f9ef99709c/tumblr_o56xtkb3Ub1vqcg1go1_75sq.jpg", :width=>75, :height=>75}],
-#          :original_size=>{:url=>"https://40.media.tumblr.com/0b6cd63c3d10d8f900dd78f9ef99709c/tumblr_o56xtkb3Ub1vqcg1go1_1280.jpg", :width=>720, :height=>445}}]},
-#      {:blog_name=>"cheljoh",
-#       :id=>142327450036,
-#       :post_url=>"http://cheljoh.tumblr.com/post/142327450036/kawaii-manatee-awwww",
-#       :slug=>"kawaii-manatee-awwww",
-#       :type=>"photo",
-#       :date=>"2016-04-06 02:33:18 GMT",
-#       :timestamp=>1459909998,
-#       :state=>"published",
-#       :format=>"html",
-#       :reblog_key=>"x8uneSwS",
-#       :tags=>[],
-#       :short_url=>"https://tmblr.co/ZhhVQh24ZO8cq",
-#       :summary=>"kawaii manatee! awwww",
-#       :recommended_source=>nil,
-#       :recommended_color=>nil,
-#       :highlighted=>[],
-#       :note_count=>0,
-#       :caption=>"<p>kawaii manatee! awwww</p>",
-#       :reblog=>{:tree_html=>"", :comment=>"<p>kawaii manatee! awwww</p>"},
-#       :trail=>
-#        [{:blog=>
-#           {:name=>"cheljoh",
-#            :active=>true,
-#            :theme=>
-#             {:avatar_shape=>"square",
-#              :background_color=>"#FAFAFA",
-#              :body_font=>"Helvetica Neue",
-#              :header_bounds=>"",
-#              :header_image=>"https://secure.assets.tumblr.com/images/default_header/optica_pattern_08.png?_v=f0f055039bb6136b9661cf2227b535c2",
-#              :header_image_focused=>"https://secure.assets.tumblr.com/images/default_header/optica_pattern_08_focused_v3.png?_v=f0f055039bb6136b9661cf2227b535c2",
-#              :header_image_scaled=>"https://secure.assets.tumblr.com/images/default_header/optica_pattern_08_focused_v3.png?_v=f0f055039bb6136b9661cf2227b535c2",
-#              :header_stretch=>true,
-#              :link_color=>"#529ECC",
-#              :show_avatar=>true,
-#              :show_description=>true,
-#              :show_header_image=>true,
-#              :show_title=>true,
-#              :title_color=>"#86649b",
-#              :title_font=>"Gibson",
-#              :title_font_weight=>"bold"},
-#            :share_likes=>true,
-#            :share_following=>true},
-#          :post=>{:id=>"142327450036"},
-#          :content_raw=>"<p>kawaii manatee! awwww</p>",
-#          :content=>"<p>kawaii manatee! awwww</p>",
-#          :is_current_item=>true,
-#          :is_root_item=>true}],
-#       :image_permalink=>"http://cheljoh.tumblr.com/image/142327450036",
-#       :photos=>
-#        [{:caption=>"",
-#          :alt_sizes=>
-#           [{:url=>"https://40.media.tumblr.com/4ac4f4d27cff7d708dc92b00998c817a/tumblr_o56xri6XAk1vqcg1go1_400.png", :width=>400, :height=>339},
-#            {:url=>"https://41.media.tumblr.com/4ac4f4d27cff7d708dc92b00998c817a/tumblr_o56xri6XAk1vqcg1go1_250.png", :width=>250, :height=>212},
-#            {:url=>"https://40.media.tumblr.com/4ac4f4d27cff7d708dc92b00998c817a/tumblr_o56xri6XAk1vqcg1go1_100.png", :width=>100, :height=>85},
-#            {:url=>"https://41.media.tumblr.com/4ac4f4d27cff7d708dc92b00998c817a/tumblr_o56xri6XAk1vqcg1go1_75sq.png", :width=>75, :height=>75}],
-#          :original_size=>{:url=>"https://40.media.tumblr.com/4ac4f4d27cff7d708dc92b00998c817a/tumblr_o56xri6XAk1vqcg1go1_400.png", :width=>400, :height=>339}}]}],
-#    :total_posts=>2}}

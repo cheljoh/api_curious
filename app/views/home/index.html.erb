@@ -1,1 +1,5 @@
 <h1>Tumblr Fun!</h1>
+
+<% @following.each do |name| %>
+  <%= Blog.new(current_user).following_posts(name) %>
+<% end %>

@@ -5,8 +5,7 @@ class UsersController < ApplicationController
   end
 
   def show #should use a presenter for this
-    @blog = Blog.new(current_user.uid) #title and total posts
-    #@posts = Blog.new(current_user.uid).photos
+    @blog = Blog.new(current_user) #title and total posts
   end
 end
 
