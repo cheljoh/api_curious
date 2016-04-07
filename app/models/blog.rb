@@ -7,7 +7,7 @@ class Blog
   end
 
   def title
-    info(blog_name)[:title] 
+    info(blog_name)[:title]
   end
 
   def total_posts

@@ -1,5 +1,8 @@
 class HomeController < ApplicationController
+
   def index
-    @following = Blog.new(current_user).following
+    if current_user
+      @following = Blog.new(current_user).following
+    end
   end
 end

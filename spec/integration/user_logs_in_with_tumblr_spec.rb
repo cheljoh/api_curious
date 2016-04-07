@@ -10,12 +10,10 @@ RSpec.feature "UserLogsInWithTumblr", type: :integration do
 
   scenario "logging in" do
     VCR.use_cassette("blog.following_photos") do
-      user = User.create(uid: "horace", name: "horace", oauth_token: ENV["OAUTH_TOKEN"], oauth_token_secret: ENV["OAUTH_TOKEN_SECRET"])
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
-
       visit "/"
       expect(page.status_code).to eq(200)
-      expect(page).to have_content("horace")
+      click_on "Sign in with Tumblr"
+      expect(page).to have_content("Horace")
       expect(page).to have_link("Logout")
     end
   end

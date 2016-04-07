@@ -15,6 +15,11 @@ RSpec.feature "UserViewsTheirFeed", type: :integration do
       expect(page).to have_content("clovermemories")
       expect(page).to have_content("harusi00")
       expect(page).to have_content("textsfromtherisingstones")
+      expect(page).to have_content("ffxivreactions")
+      expect(page).to have_content("thedailyspriggan")
+      expect(page).to have_content("skellydun")
+      expect(page).to have_content("jigglypuffsvevo")
+      expect(page).to have_content("misjudgments")
 
     end
   end
