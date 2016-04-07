@@ -15,6 +15,8 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'figaro'
 gem 'omniauth-tumblr'
 gem 'httparty'
+gem 'faraday'
+gem 'figaro'
 
 group :development, :test do
   gem 'rspec'
@@ -24,11 +26,13 @@ group :development, :test do
   gem 'launchy'
   gem 'database_cleaner'
   gem 'rspec-activemodel-mocks'
+  gem 'vcr'
 end
 
 group :test do
   gem 'shoulda-matchers', '~> 3.1'
   gem 'simplecov', require: false
+  gem 'webmock'
 end
 
 group :development do

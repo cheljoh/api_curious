@@ -1,41 +1,49 @@
-class Blog < OpenStruct
+class Blog
+  attr_reader :blog_name
 
-  def self.title(current_user_uid)
-    info(current_user_uid)[:title]
+  def initialize(blog_name)
+    @blog_name = blog_name
   end
 
-  def self.total_posts(current_user_uid)
-    info(current_user_uid)[:total_posts]
+  def title
+    info(blog_name)[:title]
   end
 
-  def self.avatar(current_user_uid)
-    get_avatar(current_user_uid)
+  def total_posts
+    info(blog_name)[:total_posts]
   end
 
-  def self.posts(current_user_uid)
-    get_posts(current_user_uid)
+  def avatar
+    get_avatar(blog_name)
   end
 
-  def self.photos(current_user_uid)
-    get_photos(current_user_uid).map{|post| {:summary => post[:summary], :photos => post[:photos].map{|photo| photo[:alt_sizes][1][:url]}}}
+  def posts
+    posts = get_posts(blog_name)
+    post_content = posts.map do |post|
+      [post[:title], post[:body].gsub("<p>", "").gsub("</p>", "")]
+    end
+  end
+
+  def photos
+    photos = get_photos(blog_name).map{|post| {:summary => post[:summary], :photos => post[:photos].map{|photo| photo[:alt_sizes][1][:url]}}}
   end
 
   private
 
-  def self.info(current_user_uid)
-    TumblrService.new(current_user_uid).info
+  def info(blog_name) #took out self
+    TumblrService.new(blog_name).info
   end
 
-  def self.get_avatar(current_user_uid)
-    TumblrService.new(current_user_uid).avatar
+  def get_avatar(blog_name)
+    TumblrService.new(blog_name).avatar
   end
 
-  def self.get_posts(current_user_uid)
-    TumblrService.new(current_user_uid).posts
+  def get_posts(blog_name)
+    TumblrService.new(blog_name).posts
   end
 
-  def self.get_photos(current_user_uid)
-    TumblrService.new(current_user_uid).photos
+  def get_photos(blog_name)
+    TumblrService.new(blog_name).photos
   end
 
 end

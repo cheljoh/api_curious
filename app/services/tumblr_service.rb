@@ -2,9 +2,9 @@ require "base64"
 
 class TumblrService
 
-  def initialize(current_user_uid)
+  def initialize(blog_name)
     @api_key = "api_key=#{ENV['CONSUMER_KEY']}"
-    @host = "https://api.tumblr.com/v2/blog/#{current_user_uid}"
+    @host = "https://api.tumblr.com/v2/blog/#{blog_name}"
   end
 
   def info
@@ -29,6 +29,10 @@ class TumblrService
   def avatar
     response = HTTParty.get(@host + "/avatar/64")
     Base64.strict_encode64(response)
+  end
+
+  def following
+
   end
 
   private

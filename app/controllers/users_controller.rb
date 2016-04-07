@@ -4,12 +4,9 @@ class UsersController < ApplicationController
 
   end
 
-  def show
-    @title = Blog.title(current_user.uid)
-    @total_posts = Blog.total_posts(current_user.uid)
-    @avatar = Blog.avatar(current_user.uid)
-    @recent_posts = Blog.posts(current_user.uid)
-    @posts = Blog.photos(current_user.uid)
+  def show #should use a presenter for this
+    @blog = Blog.new(current_user.uid) #title and total posts
+    #@posts = Blog.new(current_user.uid).photos
   end
 end
 
