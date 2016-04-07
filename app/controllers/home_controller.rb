@@ -7,14 +7,20 @@ class HomeController < ApplicationController
   end
 
   def update
-    like_post = Blog.new(current_user).like(like_params)
-    flash[:notice] = "you liked a post! <3"
-    redirect_to root_path
+    if params[:method] == "like"
+      like_post = Blog.new(current_user).like(blog_params)
+      flash[:notice] = "you liked a post! <3"
+      redirect_to root_path
+    elsif params[:method] == "reblog"
+      Blog.new(current_user).reblog(blog_params)
+      flash[:notice] = "you reblogged a post! <3"
+      redirect_to root_path
+    end
   end
 
   private
 
-  def like_params
+  def blog_params
     params.permit(:post_id, :reblog_key)
   end
 end

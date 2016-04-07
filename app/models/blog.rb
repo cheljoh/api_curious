@@ -44,6 +44,10 @@ class Blog
     TumblrService.new.like(current_user, params)
   end
 
+  def reblog(params)
+    TumblrService.new.reblog(current_user, params)
+  end
+
   private
 
   def info(blog_name) #took out self

@@ -17,7 +17,8 @@
                  <div class="card-content">
                    <p><%= name %></p>
                    <p><%= post[:summary] %></p>
-                    <%= button_to "like", {controller: "home", action: "update", post_id: post[:post_id], reblog_key: post[:reblog_key]} %>
+                    <%= button_to "like", {controller: "home", action: "update", method: "like", post_id: post[:post_id], reblog_key: post[:reblog_key]} %>
+                    <%= button_to "reblog", {controller: "home", action: "update", method: "reblog", post_id: post[:post_id].to_i, reblog_key: post[:reblog_key]} %>
                 </div>
              </div> <br><br>
           </div>
