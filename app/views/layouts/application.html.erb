@@ -8,8 +8,16 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-  <!-- Dropdown Structure -->
 <%= render partial: "shared/nav_bar" %>
+
+<div class="container">
+  <% flash.each do |type, message| %>
+    <div class="<%= type %>">
+      <%= raw(message)%>
+    </div>
+  <% end %>
+</div>
+
 <%= yield %>
 
 </body>

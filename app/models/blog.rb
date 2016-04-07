@@ -37,7 +37,11 @@ class Blog
   end
 
   def following_photos(name)
-    photos = (get_photos(name).map{|post| {:summary => post[:summary], :photos => post[:photos].map{|photo| photo[:alt_sizes][1][:url]}}}).first
+    photos = (get_photos(name).map{|post| {summary: post[:summary], post_id: post[:id], reblog_key: post[:reblog_key], photos: post[:photos].map{|photo| photo[:alt_sizes][1][:url]}}}).first
+  end
+
+  def like(params)
+    TumblrService.new.like(current_user, params)
   end
 
   private

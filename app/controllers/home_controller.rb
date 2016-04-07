@@ -5,4 +5,16 @@ class HomeController < ApplicationController
       @following = Blog.new(current_user).following
     end
   end
+
+  def update
+    like_post = Blog.new(current_user).like(like_params)
+    flash[:notice] = "you liked a post! <3"
+    redirect_to root_path
+  end
+
+  private
+
+  def like_params
+    params.permit(:post_id, :reblog_key)
+  end
 end

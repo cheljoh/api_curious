@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
 
   resources :users, only: [:show, :index]
-  #get "/dashboard", to: "users#show"
 
   root to:  "home#index"
+  post "/", to: "home#update"
 end
